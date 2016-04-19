@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,31 @@ namespace UI_TA
     /// </summary>
     public partial class MainWindow : Window
     {
+        Process compiler;
         public MainWindow()
         {
             InitializeComponent();
+
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            compiler = new Process();
+            compiler.StartInfo.FileName = "main.exe";
+            compiler.StartInfo.Arguments = "";
+            compiler.StartInfo.UseShellExecute = false;
+            compiler.StartInfo.RedirectStandardOutput = true;
+            compiler.StartInfo.CreateNoWindow = true;
+            compiler.StartInfo.ErrorDialog = false;
+            compiler.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            compiler.Start();
+
+            //Console.WriteLine(compiler.StandardOutput.ReadToEnd());
+
+            text.Text = compiler.StandardOutput.ReadToEnd();
+
+            compiler.WaitForExit();
         }
     }
 }
