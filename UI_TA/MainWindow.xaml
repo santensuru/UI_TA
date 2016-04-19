@@ -4,10 +4,47 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100px"/>
-            <RowDefinition Height="100px"/>
+            <RowDefinition Height="25px"/>
+            <RowDefinition Height="25px"/>
+            <RowDefinition Height="25px"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="text" Grid.Row="0"/>
-        <Button Click="Button_Click" Grid.Row="1"> My button </Button>
+
+        <!--menu-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="75px"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="File Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox x:Name="input" Grid.Column="1" IsEnabled="False" VerticalAlignment="Center" TextAlignment="Right" FlowDirection="RightToLeft" Margin="1px 0px" Height="23px"/>
+            <Button Click="Open_File" Grid.Column="2" Margin="1px 0px" Height="23px">Choose</Button>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10px"/>
+                <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="75px"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton GroupName="4m" Content="Median" IsChecked="True" Grid.Column="1" VerticalAlignment="Center"/> <!-- -cls 0 -->
+            <RadioButton GroupName="4m" Content="Mode" Grid.Column="2" VerticalAlignment="Center"/> <!-- -cls 1 -->
+            <RadioButton GroupName="4m" Content="Mean" Grid.Column="3" VerticalAlignment="Center"/> <!-- -cls 2 -->
+            <RadioButton GroupName="4m" Content="Adaptive" Grid.Column="4" VerticalAlignment="Center"/> <!-- -cla -->
+        </Grid>
+
+        <!--cmd-->
+        <Button Click="Button_Click" Grid.Row="2">Execute</Button>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="400px"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="awal" Grid.Column="0"/>
+            <TextBox x:Name="text" Grid.Column="1" IsEnabled="False"/>
+        </Grid>
     </Grid>
 </Window>
