@@ -9,8 +9,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25px"/>
             <RowDefinition Height="25px"/>
-            <!--<RowDefinition Height="25px"/>-->
             <RowDefinition Height="*"/>
+            <RowDefinition Height="25px"/>
         </Grid.RowDefinitions>
 
         <!--menu-->
@@ -19,6 +19,7 @@
                 <ColumnDefinition Width="75px"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="10px"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="File Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox x:Name="input" Grid.Column="1" IsReadOnly="True" VerticalAlignment="Center" TextAlignment="Right" FlowDirection="RightToLeft" Margin="1px 0px" Height="23px"/>
@@ -31,40 +32,65 @@
                 <ColumnDefinition Width="65px"/>
                 <ColumnDefinition Width="65px"/>
                 <ColumnDefinition Width="80px"/>
-                <ColumnDefinition Width="100px"/>
+                <ColumnDefinition Width="70px"/>
+                <ColumnDefinition Width="70px"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="10px"/>
             </Grid.ColumnDefinitions>
-            <RadioButton GroupName="arg" Content="Median" Click="RadioButton_Click" IsChecked="True" Grid.Column="1" VerticalAlignment="Center"/> <!-- -ls 0 -->
-            <RadioButton GroupName="arg" Content="Mode" Click="RadioButton_Click" Grid.Column="2" VerticalAlignment="Center"/> <!-- -ls 1 -->
-            <RadioButton GroupName="arg" Content="Mean" Click="RadioButton_Click" Grid.Column="3" VerticalAlignment="Center"/> <!-- -ls 2 -->
-            <RadioButton GroupName="arg" Content="Adaptive" Click="RadioButton_Click" Grid.Column="4" VerticalAlignment="Center"/> <!-- -la -->
-            <RadioButton GroupName="arg" Content="LZW + Mean" Click="RadioButton_Click" Grid.Column="5" VerticalAlignment="Center"/> <!-- -lLts 2 -->
+            <RadioButton GroupName="arg" Content="Median" Click="RadioButton_Click" IsChecked="True" Grid.Column="1" VerticalAlignment="Center"/>
+            <!-- -ls 0 -->
+            <RadioButton GroupName="arg" Content="Mode" Click="RadioButton_Click" Grid.Column="2" VerticalAlignment="Center"/>
+            <!-- -ls 1 -->
+            <RadioButton GroupName="arg" Content="Mean" Click="RadioButton_Click" Grid.Column="3" VerticalAlignment="Center"/>
+            <!-- -ls 2 -->
+            <RadioButton GroupName="arg" Content="Adaptive" Click="RadioButton_Click" Grid.Column="4" VerticalAlignment="Center"/>
+            <!-- -la -->
+            <CheckBox Content="+ LZW" Click="CheckBox_Click" Grid.Column="5" VerticalAlignment="Center"/>
+            <!-- -Lt -->
+            <CheckBox x:Name="fls" Content="Fix LSB" IsEnabled="False" Click="CheckBox_Click_1" Grid.Column="6" VerticalAlignment="Center"/>
+            <!-- -f -->
+            <ComboBox Grid.Column="7" x:Name="dd"
+	            HorizontalAlignment="Left"
+	            Margin="1px 0px"
+	            VerticalAlignment="Center"
+	            Width="55px"
+	            Loaded="ComboBox_Loaded"
+	            SelectionChanged="ComboBox_SelectionChanged"
+                IsEnabled="False"/>
 
-            <Button Click="Button_Click" Grid.Column="7" Margin="1px 0px" Height="23px">Execute</Button>
+            <Button Click="Button_Click" Grid.Column="8" Margin="1px 0px" Height="23px">Execute</Button>
             <!-- -la -->
         </Grid>
 
         <!--cmd-->
-        
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10px"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10px"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Image x:Name="awal" Grid.Row="0"/>
-                <TextBlock x:Name="awalName" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
-                <Image x:Name="akhir" Grid.Row="1"/>
-                <TextBlock x:Name="akhirName" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
+                <Image x:Name="awal" Grid.Row="0" Margin="1px"/>
+                <TextBlock x:Name="awalName" Grid.Row="0" Margin="1px" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
+                <Image x:Name="akhir" Grid.Row="1" Margin="1px"/>
+                <TextBlock x:Name="akhirName" Grid.Row="1" Margin="1px" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
             </Grid>
-            <TextBox x:Name="text" Grid.Column="1" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <TextBox x:Name="text" Grid.Column="2" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </Grid>
+        
+        <!--logo-->
+        <Image Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="128px" Source="ITS.png" Margin="1px" />
+        <TextBlock Grid.Row="3" Text="Institut Teknologi Sepuluh Nopember - Department of Informatics" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="131px 0 0 0"/>
+        <TextBlock Grid.Row="3" Text="Djuned Fernando Djusdek - 5112.100.071" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10px 0"/>
+
     </Grid>
 </Window>

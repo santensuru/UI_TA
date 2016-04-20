@@ -32,6 +32,9 @@ namespace UI_TA
         Process compiler;
         string argument = "ls 0";
         string metode = "Median";
+        Boolean lzw = false;
+        Boolean fl = false;
+        int _fl = 1;
 
         public MainWindow()
         {
@@ -78,33 +81,85 @@ namespace UI_TA
             {
                 this.metode = "Median";
                 this.argument = "ls 0";
+
+                if (this.lzw)
+                {
+                    fls.IsEnabled = true;
+                }
             }
             else if (radioButton.Content.ToString().Equals("Mode"))
             {
                 this.metode = "Mode";
                 this.argument = "ls 1";
+
+                if (this.lzw)
+                {
+                    fls.IsEnabled = true;
+                }
             }
             else if (radioButton.Content.ToString().Equals("Mean"))
             {
                 this.metode = "Mean";
                 this.argument = "ls 2";
+
+                if (this.lzw)
+                {
+                    fls.IsEnabled = true;
+                }
             }
             else if (radioButton.Content.ToString().Equals("Adaptive"))
             {
                 this.metode = "Adaptive";
                 this.argument = "la";
-            }
-            else if (radioButton.Content.ToString().Equals("LZW + Mean"))
-            {
-                this.metode = "LZW + Mean";
-                this.argument = "lLts 2";
+
+                fls.IsEnabled = false;
+                fls.IsChecked = false;
+                this.fl = false;
+                this._fl = 1;
+                dd.IsEnabled = false;
+                dd.SelectedIndex = 0;
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Title = "UI - Grayscale Image Compression base-on Adaptive Huffman and LZW Algorithm";
+            
             this.Left = (System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Right - this.Width) / 2;
             this.Top = (System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2;
+        }
+
+        private void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            // ... A List.
+            List<string> data = new List<string>();
+            data.Add("1");
+            data.Add("2");
+            data.Add("3");
+            data.Add("4");
+            data.Add("5");
+            data.Add("6");
+            data.Add("7");
+            data.Add("8");
+
+            // ... Get the ComboBox reference.
+            var comboBox = sender as ComboBox;
+
+            // ... Assign the ItemsSource to the List.
+            comboBox.ItemsSource = data;
+
+            // ... Make the first item selected.
+            comboBox.SelectedIndex = 0;
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // ... Get the ComboBox.
+            var comboBox = sender as ComboBox;
+
+            // ... Set SelectedItem as Window Title.
+            string value = comboBox.SelectedItem as string;
+            this._fl = Int32.Parse(value);
         }
 
         public void Load(string filename, System.Windows.Controls.Image output, TextBlock outputName)
@@ -115,15 +170,18 @@ namespace UI_TA
                 {
                     PGM.PgmReader reader = new PGM.PgmReader(filename);
                     Bitmap bitmap = reader.GetBitmap();
-                    bitmap.Save(memory, ImageFormat.Png);
-                    memory.Position = 0;
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = memory;
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.EndInit();
-                    output.Source = bitmapImage;
-                    output.Stretch = Stretch.Uniform;
+                    if (bitmap != null)
+                    {
+                        bitmap.Save(memory, ImageFormat.Png);
+                        memory.Position = 0;
+                        BitmapImage bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.StreamSource = memory;
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.EndInit();
+                        output.Source = bitmapImage;
+                        output.Stretch = Stretch.Uniform;
+                    }
 
                     if (filename.Contains(".restore"))
                     {
@@ -145,13 +203,22 @@ namespace UI_TA
             this.Dispatcher.Invoke((Action)(() =>
             {
                 string curFile;
+                string curArg = this.argument;
                 
-                text.Text = "Metode Terpilih: " + metode + "\n";
+                text.Text = "Metode Terpilih: " + metode + (this.lzw ? " + LZW": "") + (this.fl ? " + fix_length:=" + this._fl : "") + "\n";
 
                 // encode
                 compiler = new Process();
                 compiler.StartInfo.FileName = "main.exe";
-                compiler.StartInfo.Arguments = "-c" + argument + " -i \"" + input.Text + "\"";
+                if (this.lzw && !this.fl)
+                {
+                    curArg = "Lt" + this.argument;
+                }
+                else if (this.lzw && this.fl)
+                {
+                    curArg = "Lt" + this.argument + " -f " + this._fl.ToString() + "..." + this._fl.ToString();
+                }
+                compiler.StartInfo.Arguments = "-c" + curArg + " -i \"" + input.Text + "\"";
                 compiler.StartInfo.UseShellExecute = false;
                 compiler.StartInfo.RedirectStandardOutput = true;
                 compiler.StartInfo.CreateNoWindow = true;
@@ -166,16 +233,20 @@ namespace UI_TA
                 // decode
                 compiler = new Process();
                 compiler.StartInfo.FileName = "main.exe";
-                if (argument.Equals("lLts 2"))
+                if (this.lzw && !this.fl)
                 {
                     curFile = input.Text.Replace(".pgm", ".ahlzwo");
+                }
+                else if (this.lzw && this.fl)
+                {
+                    curFile = input.Text.Replace(".pgm", ".fl-" + this._fl.ToString() + ".ahlzwo");
                 }
                 else
                 {
                     curFile = input.Text.Replace(".pgm", ".ah");
                 }
                 this.filenames.Add(curFile);
-                compiler.StartInfo.Arguments = "-d" + argument + " -i \"" + curFile + "\"";
+                compiler.StartInfo.Arguments = "-d" + curArg + " -i \"" + curFile + "\"";
                 compiler.StartInfo.UseShellExecute = false;
                 compiler.StartInfo.RedirectStandardOutput = true;
                 compiler.StartInfo.CreateNoWindow = true;
@@ -190,14 +261,7 @@ namespace UI_TA
                 // psnr
                 compiler = new Process();
                 compiler.StartInfo.FileName = "psnr.exe";
-                if (argument.Equals("lLts 2"))
-                {
-                    curFile = input.Text.Replace(".pgm", ".restorelzwo");
-                }
-                else
-                {
-                    curFile = input.Text.Replace(".pgm", ".restore");
-                }
+                curFile = curFile.Replace(".ah", ".restore");
                 this.filenames.Add(curFile);
                 compiler.StartInfo.Arguments = "\"" + input.Text + "\" \"" + curFile + "\"";
                 compiler.StartInfo.UseShellExecute = false;
@@ -211,17 +275,7 @@ namespace UI_TA
 
                 compiler.WaitForExit();
 
-                string filename;
-                if (argument.Equals("lLts 2"))
-                {
-                    filename = input.Text.Replace(".pgm", ".restorelzwo");
-                }
-                else
-                {
-                    filename = input.Text.Replace(".pgm", ".restore");
-                }
-
-                Thread thread2 = new Thread(() => Load(filename, akhir, akhirName));
+                Thread thread2 = new Thread(() => Load(curFile, akhir, akhirName));
                 thread2.Start();
             }));
         }
@@ -232,6 +286,47 @@ namespace UI_TA
             {
                 File.Delete(filename);
             }
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.lzw == false)
+            {
+                this.lzw = true; 
+                
+                if (!this.metode.Equals("Adaptive"))
+                {
+                    fls.IsEnabled = true;
+                }
+            }
+            else
+            {
+                this.lzw = false;
+                fls.IsEnabled = false;
+                this.fl = false;
+                this._fl = 1;
+                fls.IsChecked = false;
+                dd.IsEnabled = false;
+                dd.SelectedIndex = 0;
+            }
+        }
+
+        private void CheckBox_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (this.fl == false)
+            {
+                this.fl = true;
+                dd.IsEnabled = true;
+            }
+            else
+            {
+                this.fl = false;
+                this._fl = 1;
+                dd.IsEnabled = false;
+                dd.SelectedIndex = 0;
+            }
+
+            //MessageBox.Show(this.fl.ToString());
         }
     }
 }

@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace UI_TA.PGM
 {
     public class PgmReader
     {
         string file;
+        Boolean can;
         PgmImage pgmImage;
         int magnify;
         Bitmap bitMap;
 
         public PgmReader(string file){
             this.file = file;
-            pgmImage = LoadImage(file);
-            magnify = 2;
-            bitMap = MakeBitmap(pgmImage, magnify);
+            can = LoadImage(file, out pgmImage);
+            magnify = 1;
+            //MessageBox.Show(can.ToString());
+            if (can)
+            {
+                bitMap = MakeBitmap(pgmImage, magnify);
+            }
         }
 
         public Bitmap GetBitmap()
@@ -27,14 +34,21 @@ namespace UI_TA.PGM
             return this.bitMap;
         }
 
-        public PgmImage LoadImage(string file)
+        public Boolean LoadImage(string file, out PgmImage image)
         {
             FileStream ifs = new FileStream(file, FileMode.Open);
             BinaryReader br = new BinaryReader(ifs);
 
             string magic = NextNonCommentLine(br);
             if (magic != "P5")
-                throw new Exception("Unknown magic number: " + magic);
+            {
+                //throw new Exception("Unknown magic number: " + magic);
+                SystemSounds.Beep.Play();
+                MessageBox.Show("Unknown magic number: " + magic + "\nFile must be pgm with P5 as magic number");
+                image = null;
+                return false;
+            }
+                
             //listBox1.Items.Add("");
             //listBox1.Items.Add("magicer = " + magic);
 
@@ -51,6 +65,14 @@ namespace UI_TA.PGM
             }
             //listBox1.Items.Add("widthht = " + width + " " + height);
 
+            if (width * height > 1200000)
+            {
+                SystemSounds.Beep.Play();
+                MessageBox.Show("File to large: " + width * height + "\nFile must under 1,200,000 pixels");
+                image = null;
+                return false;
+            }
+
             string sMaxVal = NextNonCommentLine(br);
             int maxVal = int.Parse(sMaxVal);
             //listBox1.Items.Add("maxVal+ maxVal);
@@ -62,13 +84,23 @@ namespace UI_TA.PGM
 
             for (int i = 0; i < height; ++i)
                 for (int j = 0; j < width; ++j)
-                    pixels[i][j] = br.ReadByte();
+                    try
+                    {
+                        pixels[i][j] = br.ReadByte();
+                    }
+                    catch (Exception e)
+                    {
+                        pixels[i][j] = (pixels[i - 1][j] <= pixels[i][j - 1] ? pixels[i - 1][j] : pixels[i][j - 1]);
+                        Console.WriteLine("Error at i:={0}, j:={1}, e:={2}", i, j, e.ToString());
+                    }
 
             br.Close(); ifs.Close();
 
             PgmImage result = new PgmImage(width, height, maxVal, pixels);
             //listBox1.Items.Add("imageed");
-            return result;
+
+            image = result;
+            return true;
         }
 
         static string NextAnyLine(BinaryReader br)
