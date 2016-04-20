@@ -1,12 +1,15 @@
 ﻿<Window x:Class="UI_TA.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="800"
+        MinWidth="800" MinHeight="600"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25px"/>
             <RowDefinition Height="25px"/>
-            <RowDefinition Height="25px"/>
+            <!--<RowDefinition Height="25px"/>-->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -18,33 +21,50 @@
                 <ColumnDefinition Width="75px"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="File Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox x:Name="input" Grid.Column="1" IsEnabled="False" VerticalAlignment="Center" TextAlignment="Right" FlowDirection="RightToLeft" Margin="1px 0px" Height="23px"/>
+            <TextBox x:Name="input" Grid.Column="1" IsReadOnly="True" VerticalAlignment="Center" TextAlignment="Right" FlowDirection="RightToLeft" Margin="1px 0px" Height="23px"/>
             <Button Click="Open_File" Grid.Column="2" Margin="1px 0px" Height="23px">Choose</Button>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10px"/>
                 <ColumnDefinition Width="75px"/>
-                <ColumnDefinition Width="75px"/>
-                <ColumnDefinition Width="75px"/>
+                <ColumnDefinition Width="65px"/>
+                <ColumnDefinition Width="65px"/>
+                <ColumnDefinition Width="80px"/>
+                <ColumnDefinition Width="100px"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="75px"/>
             </Grid.ColumnDefinitions>
-            <RadioButton GroupName="4m" Content="Median" IsChecked="True" Grid.Column="1" VerticalAlignment="Center"/> <!-- -cls 0 -->
-            <RadioButton GroupName="4m" Content="Mode" Grid.Column="2" VerticalAlignment="Center"/> <!-- -cls 1 -->
-            <RadioButton GroupName="4m" Content="Mean" Grid.Column="3" VerticalAlignment="Center"/> <!-- -cls 2 -->
-            <RadioButton GroupName="4m" Content="Adaptive" Grid.Column="4" VerticalAlignment="Center"/> <!-- -cla -->
+            <RadioButton GroupName="arg" Content="Median" Click="RadioButton_Click" IsChecked="True" Grid.Column="1" VerticalAlignment="Center"/> <!-- -ls 0 -->
+            <RadioButton GroupName="arg" Content="Mode" Click="RadioButton_Click" Grid.Column="2" VerticalAlignment="Center"/> <!-- -ls 1 -->
+            <RadioButton GroupName="arg" Content="Mean" Click="RadioButton_Click" Grid.Column="3" VerticalAlignment="Center"/> <!-- -ls 2 -->
+            <RadioButton GroupName="arg" Content="Adaptive" Click="RadioButton_Click" Grid.Column="4" VerticalAlignment="Center"/> <!-- -la -->
+            <RadioButton GroupName="arg" Content="LZW + Mean" Click="RadioButton_Click" Grid.Column="5" VerticalAlignment="Center"/> <!-- -lLts 2 -->
+
+            <Button Click="Button_Click" Grid.Column="7" Margin="1px 0px" Height="23px">Execute</Button>
+            <!-- -la -->
         </Grid>
 
         <!--cmd-->
-        <Button Click="Button_Click" Grid.Row="2">Execute</Button>
-        <Grid Grid.Row="3">
+        
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="400px"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="awal" Grid.Column="0"/>
-            <TextBox x:Name="text" Grid.Column="1" IsEnabled="False"/>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Image x:Name="awal" Grid.Row="0"/>
+                <TextBlock x:Name="awalName" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
+                <Image x:Name="akhir" Grid.Row="1"/>
+                <TextBlock x:Name="akhirName" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
+            </Grid>
+            <TextBox x:Name="text" Grid.Column="1" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </Grid>
     </Grid>
 </Window>
