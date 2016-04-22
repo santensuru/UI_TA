@@ -59,6 +59,9 @@ namespace UI_TA
         private void Open_File(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Netpbm Files (*.pgm)|*.pgm";
+            openFileDialog.FilterIndex = 1;
+
             if (openFileDialog.ShowDialog() == true)
             {
                 input.Text = openFileDialog.FileName;

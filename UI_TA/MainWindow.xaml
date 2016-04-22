@@ -84,7 +84,7 @@
                 <Image x:Name="akhir" Grid.Row="1" Margin="1px"/>
                 <TextBlock x:Name="akhirName" Grid.Row="1" Margin="1px" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" Background="Black" TextAlignment="Center"/>
             </Grid>
-            <TextBox x:Name="text" Grid.Column="2" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <TextBox x:Name="text" Grid.Column="2" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="1px"/>
         </Grid>
         
         <!--logo-->
