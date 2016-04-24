@@ -59,7 +59,7 @@
 	            SelectionChanged="ComboBox_SelectionChanged"
                 IsEnabled="False"/>
 
-            <Button Click="Button_Click" Grid.Column="8" Margin="1px 0px" Height="23px">Execute</Button>
+            <Button x:Name="execute" Click="Button_Click" Grid.Column="8" Margin="1px 0px" Height="23px">Execute</Button>
             <!-- -la -->
         </Grid>
 

@@ -65,10 +65,10 @@ namespace UI_TA.PGM
             }
             //listBox1.Items.Add("widthht = " + width + " " + height);
 
-            if (width * height > 1200000)
+            if (width * height > 2000000)
             {
                 SystemSounds.Beep.Play();
-                MessageBox.Show("File to large: " + width * height + "\nFile must under 1,200,000 pixels");
+                MessageBox.Show("File to large: " + width * height + "\nFile must under 2,000,000 pixels");
                 image = null;
                 return false;
             }

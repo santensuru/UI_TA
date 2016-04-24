@@ -66,6 +66,8 @@ namespace UI_TA
             {
                 input.Text = openFileDialog.FileName;
 
+                execute.IsEnabled = true;
+
                 Thread thread = new Thread(() => Load(openFileDialog.FileName, awal, awalName));
                 thread.Start();
             }
@@ -184,18 +186,22 @@ namespace UI_TA
                         bitmapImage.EndInit();
                         output.Source = bitmapImage;
                         output.Stretch = Stretch.Uniform;
-                    }
 
-                    if (filename.Contains(".restore"))
-                    {
-                        string name = filename;
-                        name = filename.Replace(".restore", ".ah");
-                        outputName.Text = "Compressed Size: " + new System.IO.FileInfo(name).Length.ToString() + " bytes\n";
-                        outputName.Text += "Restored Size: " + new System.IO.FileInfo(filename).Length.ToString() + " bytes";
+                        if (filename.Contains(".restore"))
+                        {
+                            string name = filename;
+                            name = filename.Replace(".restore", ".ah");
+                            outputName.Text = "Compressed Size: " + new System.IO.FileInfo(name).Length.ToString() + " bytes\n";
+                            outputName.Text += "Restored Size: " + new System.IO.FileInfo(filename).Length.ToString() + " bytes";
+                        }
+                        else
+                        {
+                            outputName.Text = "Original Size: " + new System.IO.FileInfo(filename).Length.ToString() + " bytes";
+                        }
                     }
                     else
                     {
-                        outputName.Text = "Original Size: " + new System.IO.FileInfo(filename).Length.ToString() + " bytes";
+                        execute.IsEnabled = false;
                     }
                     
                 }
