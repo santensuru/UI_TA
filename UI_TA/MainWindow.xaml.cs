@@ -221,11 +221,11 @@ namespace UI_TA
                 compiler.StartInfo.FileName = "main.exe";
                 if (this.lzw && !this.fl)
                 {
-                    curArg = "Lt" + this.argument;
+                    curArg = "Lbt" + this.argument;
                 }
                 else if (this.lzw && this.fl)
                 {
-                    curArg = "Lt" + this.argument + " -f " + this._fl.ToString() + "..." + this._fl.ToString();
+                    curArg = "Lbt" + this.argument + " -f " + this._fl.ToString() + "..." + this._fl.ToString();
                 }
                 compiler.StartInfo.Arguments = "-c" + curArg + " -i \"" + input.Text + "\"";
                 compiler.StartInfo.UseShellExecute = false;
