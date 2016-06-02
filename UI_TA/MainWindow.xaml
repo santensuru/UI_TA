@@ -49,7 +49,7 @@
             <!-- -la -->
             <CheckBox Content="LZW" Click="CheckBox_Click" Grid.Column="5" VerticalAlignment="Center"/>
             <!-- -Lt -->
-            <CheckBox x:Name="tr" Content="Transition" Click="CheckBox_Click_2" Grid.Column="6" VerticalAlignment="Center"/>
+            <CheckBox x:Name="tr" Content="Transition" IsEnabled="False" Click="CheckBox_Click_2" Grid.Column="6" VerticalAlignment="Center"/>
             <!-- -b -->
             <CheckBox x:Name="fls" Content="Fix LSB" IsEnabled="False" Click="CheckBox_Click_1" Grid.Column="7" VerticalAlignment="Center"/>
             <!-- -f -->

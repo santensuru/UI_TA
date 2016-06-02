@@ -121,8 +121,6 @@ namespace UI_TA
                 this.metode = "Adaptive";
                 this.argument = "la";
 
-                tr.IsEnabled = false;
-                tr.IsChecked = true;
                 fls.IsEnabled = false;
                 fls.IsChecked = false;
                 this.fl = false;
@@ -218,7 +216,7 @@ namespace UI_TA
             this.Dispatcher.Invoke((Action)(() =>
             {
                 string curFile;
-                string curArg = this.argument;
+                string curArg = "";
 
                 text.Text = "Metode Terpilih: " + metode + (this.lzw ? " + LZW" : "") + (this.transition ? " alur transisi" : " 8 bit") + (this.fl ? " + fix_length:=" + this._fl : "") + "\n";
 
@@ -227,7 +225,7 @@ namespace UI_TA
                 compiler.StartInfo.FileName = "main.exe";
                 if (this.lzw)
                 {
-                    curArg = "Lt";
+                    curArg += "Lt";
                 }
                 if (this.transition)
                 {
@@ -238,6 +236,7 @@ namespace UI_TA
                 {
                     curArg += " -f " + this._fl.ToString() + "..." + this._fl.ToString();
                 }
+                //MessageBox.Show(curArg);
                 compiler.StartInfo.Arguments = "-c" + curArg + " -i \"" + input.Text + "\"";
                 compiler.StartInfo.UseShellExecute = false;
                 compiler.StartInfo.RedirectStandardOutput = true;
@@ -312,7 +311,8 @@ namespace UI_TA
         {
             if (this.lzw == false)
             {
-                this.lzw = true; 
+                this.lzw = true;
+                tr.IsEnabled = true;
                 
                 if (!this.metode.Equals("Adaptive"))
                 {
@@ -322,6 +322,9 @@ namespace UI_TA
             else
             {
                 this.lzw = false;
+                this.transition = false;
+                tr.IsEnabled = false;
+                tr.IsChecked = false;
                 fls.IsEnabled = false;
                 this.fl = false;
                 this._fl = 1;
