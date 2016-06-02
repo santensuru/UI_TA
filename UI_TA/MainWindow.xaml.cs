@@ -33,6 +33,7 @@ namespace UI_TA
         string argument = "ls 0";
         string metode = "Median";
         Boolean lzw = false;
+        Boolean transition = false;
         Boolean fl = false;
         int _fl = 1;
 
@@ -89,6 +90,7 @@ namespace UI_TA
 
                 if (this.lzw)
                 {
+                    tr.IsEnabled = true;
                     fls.IsEnabled = true;
                 }
             }
@@ -99,6 +101,7 @@ namespace UI_TA
 
                 if (this.lzw)
                 {
+                    tr.IsEnabled = true;
                     fls.IsEnabled = true;
                 }
             }
@@ -109,6 +112,7 @@ namespace UI_TA
 
                 if (this.lzw)
                 {
+                    tr.IsEnabled = true;
                     fls.IsEnabled = true;
                 }
             }
@@ -117,6 +121,8 @@ namespace UI_TA
                 this.metode = "Adaptive";
                 this.argument = "la";
 
+                tr.IsEnabled = false;
+                tr.IsChecked = true;
                 fls.IsEnabled = false;
                 fls.IsChecked = false;
                 this.fl = false;
@@ -213,19 +219,24 @@ namespace UI_TA
             {
                 string curFile;
                 string curArg = this.argument;
-                
-                text.Text = "Metode Terpilih: " + metode + (this.lzw ? " + LZW": "") + (this.fl ? " + fix_length:=" + this._fl : "") + "\n";
+
+                text.Text = "Metode Terpilih: " + metode + (this.lzw ? " + LZW" : "") + (this.transition ? " alur transisi" : " 8 bit") + (this.fl ? " + fix_length:=" + this._fl : "") + "\n";
 
                 // encode
                 compiler = new Process();
                 compiler.StartInfo.FileName = "main.exe";
-                if (this.lzw && !this.fl)
+                if (this.lzw)
                 {
-                    curArg = "Lbt" + this.argument;
+                    curArg = "Lt";
                 }
-                else if (this.lzw && this.fl)
+                if (this.transition)
                 {
-                    curArg = "Lbt" + this.argument + " -f " + this._fl.ToString() + "..." + this._fl.ToString();
+                    curArg += "b";
+                }
+                curArg += this.argument;
+                if (this.fl)
+                {
+                    curArg += " -f " + this._fl.ToString() + "..." + this._fl.ToString();
                 }
                 compiler.StartInfo.Arguments = "-c" + curArg + " -i \"" + input.Text + "\"";
                 compiler.StartInfo.UseShellExecute = false;
@@ -336,6 +347,21 @@ namespace UI_TA
             }
 
             //MessageBox.Show(this.fl.ToString());
+        }
+
+        private void CheckBox_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (this.lzw == true)
+            {
+                if (this.transition == false)
+                {
+                    this.transition = true;
+                }
+                else
+                {
+                    this.transition = false;
+                }
+            }
         }
     }
 }

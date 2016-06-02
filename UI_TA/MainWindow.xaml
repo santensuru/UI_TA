@@ -32,7 +32,8 @@
                 <ColumnDefinition Width="65px"/>
                 <ColumnDefinition Width="65px"/>
                 <ColumnDefinition Width="80px"/>
-                <ColumnDefinition Width="70px"/>
+                <ColumnDefinition Width="55px"/>
+                <ColumnDefinition Width="85px"/>
                 <ColumnDefinition Width="70px"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="75px"/>
@@ -46,11 +47,13 @@
             <!-- -ls 2 -->
             <RadioButton GroupName="arg" Content="Adaptive" Click="RadioButton_Click" Grid.Column="4" VerticalAlignment="Center"/>
             <!-- -la -->
-            <CheckBox Content="+ LZW" Click="CheckBox_Click" Grid.Column="5" VerticalAlignment="Center"/>
+            <CheckBox Content="LZW" Click="CheckBox_Click" Grid.Column="5" VerticalAlignment="Center"/>
             <!-- -Lt -->
-            <CheckBox x:Name="fls" Content="Fix LSB" IsEnabled="False" Click="CheckBox_Click_1" Grid.Column="6" VerticalAlignment="Center"/>
+            <CheckBox x:Name="tr" Content="Transition" Click="CheckBox_Click_2" Grid.Column="6" VerticalAlignment="Center"/>
+            <!-- -b -->
+            <CheckBox x:Name="fls" Content="Fix LSB" IsEnabled="False" Click="CheckBox_Click_1" Grid.Column="7" VerticalAlignment="Center"/>
             <!-- -f -->
-            <ComboBox Grid.Column="7" x:Name="dd"
+            <ComboBox Grid.Column="8" x:Name="dd"
 	            HorizontalAlignment="Left"
 	            Margin="1px 0px"
 	            VerticalAlignment="Center"
@@ -59,7 +62,7 @@
 	            SelectionChanged="ComboBox_SelectionChanged"
                 IsEnabled="False"/>
 
-            <Button x:Name="execute" Click="Button_Click" Grid.Column="8" Margin="1px 0px" Height="23px">Execute</Button>
+            <Button x:Name="execute" Click="Button_Click" Grid.Column="9" Margin="1px 0px" Height="23px">Execute</Button>
             <!-- -la -->
         </Grid>
 
