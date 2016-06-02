@@ -103,6 +103,7 @@
   <ItemGroup>
     <Resource Include="ITS - old.png" />
     <Resource Include="its_Xki_icon.ico" />
+    <Resource Include="logo-its-biru-transparan.png" />
     <Content Include="main.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -64,16 +64,16 @@ end;
 function InitializeSetup(): Boolean;
 begin
     if not IsDotNetDetected('v4\Client', 0) then begin
-        MsgBox('MyApp requires Microsoft .NET Framework 4.0 Client Profile.'#13#13
+        MsgBox('Grayscale Image Compression base-on Adaptive Huffman and LZW Algorithm requires Microsoft .NET Framework 4.0 Client Profile.'#13#13
             'Please use Windows Update to install this version,'#13
-            'and then re-run the MyApp setup program.', mbInformation, MB_OK);
+            'and then re-run the Grayscale Image Compression base-on Adaptive Huffman and LZW Algorithm setup program.', mbInformation, MB_OK);
         result := false;
     end else
         result := true;
 end;
 
 [Setup]
-AppName=Pemampaan Citra Keabuan dengan Adaptive Huffman dan LZW
+AppName=Grayscale Image Compression base-on Adaptive Huffman and LZW Algorithm
 AppVersion=1
 DefaultDirName={pf}\AHLZWO
 DefaultGroupName=AHLZWO
