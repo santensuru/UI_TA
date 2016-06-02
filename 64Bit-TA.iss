@@ -74,7 +74,7 @@ end;
 
 [Setup]
 AppName=Grayscale Image Compression base-on Adaptive Huffman and LZW Algorithm
-AppVersion=1
+AppVersion=1.0.0
 DefaultDirName={pf}\AHLZWO
 DefaultGroupName=AHLZWO
 UninstallDisplayIcon={app}\MyProg.exe
